@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public enum BLOCK_STYLE //블럭 스타일
 {
-    AIR,
-    BLOCK,
+    AIR, //블럭이 없다.
+    BLOCK, //블럭이 있다.
 }
 
 public class Chunk : MonoBehaviour //청크 클래스 
@@ -30,12 +30,9 @@ public class Chunk : MonoBehaviour //청크 클래스
 
     }
 
-    public void CreateBlock(float scale, float depth)
+    public void CreateBlock(float scale, float depth) //블럭 생성
     {
         InitChunk();
-
-        //int blockwidth = Mathf.Abs((int)transform.position.x - width);
-        //int blocklength = Mathf.Abs((int)transform.position.z - width);
 
         for (int x = -V.width + 1; x < V.width; x++)
         {
@@ -136,7 +133,8 @@ public class Chunk : MonoBehaviour //청크 클래스
             combine[i].mesh = meshFilters[i].sharedMesh; //메쉬 추가
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
             
-            if(meshFilters[i].name != this.name) meshFilters[i].gameObject.SetActive(false);
+            if(meshFilters[i].name != this.name) //부모가 아닐때만, 부모메쉬로 보여지기 때문에 자식 메쉬는 렌더링 하지 않음
+            meshFilters[i].gameObject.SetActive(false); 
         }
 
         GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
